@@ -20,7 +20,7 @@ class Home2View extends GetView<HomeController> {
   Widget build(BuildContext context) {
     var _currentUser = Get.find<AuthService>().user;
 
-    final layoutcategories = CategoriesLayout.LIST.obs;
+    final controllerCategories = Get.put(CategoriesController());
 
     return Scaffold(
       body: RefreshIndicator(
@@ -136,14 +136,16 @@ class Home2View extends GetView<HomeController> {
 //                    CategoriesCarouselWidget(),
                     Obx(() {
                       return Offstage(
-                        offstage: layoutcategories != CategoriesLayout.LIST,
-                        child: controller.categories.isEmpty
+                        offstage: controllerCategories.layout.value !=
+                            CategoriesLayout.LIST,
+                        child: controllerCategories.categories.isEmpty
                             ? CircularLoadingWidget(height: 400)
                             : ListView.separated(
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
                                 primary: false,
-                                itemCount: controller.categories.length,
+                                itemCount:
+                                    controllerCategories.categories.length,
                                 separatorBuilder: (context, index) {
                                   return SizedBox(height: 10);
                                 },
@@ -151,8 +153,8 @@ class Home2View extends GetView<HomeController> {
                                   return CategoryListItemWidget(
                                     heroTag: 'category_list',
                                     expanded: index == 0,
-                                    category:
-                                        controller.categories.elementAt(index),
+                                    category: controllerCategories.categories
+                                        .elementAt(index),
                                   );
                                 },
                               ),
