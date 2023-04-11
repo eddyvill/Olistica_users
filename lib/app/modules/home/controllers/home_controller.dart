@@ -30,6 +30,8 @@ class HomeController extends GetxController {
     _eServiceRepository = new EServiceRepository();
   }
 
+  get layout => null;
+
   @override
   Future<void> onInit() async {
     await refreshHome();

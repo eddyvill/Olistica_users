@@ -1,24 +1,25 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../../../services/auth_service.dart';
+import '../../category/controllers/categories_controller.dart';
+import '../../category/widgets/category_list_item_widget.dart';
+import '../../global_widgets/circular_loading_widget.dart';
 import '../../../../common/ui.dart';
 import '../../../models/slide_model.dart';
 import '../../../providers/laravel_provider.dart';
-import '../../../routes/app_routes.dart';
 import '../../../services/settings_service.dart';
 import '../../global_widgets/address_widget.dart';
 import '../../global_widgets/home_search_bar_widget.dart';
 import '../../global_widgets/notifications_button_widget.dart';
 import '../controllers/home_controller.dart';
-import '../widgets/categories_carousel_widget.dart';
-import '../widgets/featured_categories_widget.dart';
-import '../widgets/recommended_carousel_widget.dart';
 import '../widgets/slide_item_widget.dart';
 
 class Home2View extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
+    var _currentUser = Get.find<AuthService>().user;
+
     return Scaffold(
       body: RefreshIndicator(
           onRefresh: () async {
@@ -38,7 +39,7 @@ class Home2View extends GetView<HomeController> {
                 iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
                 title: Text(
                   Get.find<SettingsService>().setting.value.appName,
-                  style: Get.textTheme.headline6,
+                  style: Get.textTheme.titleLarge,
                 ),
                 centerTitle: true,
                 automaticallyImplyLeading: false,
@@ -54,7 +55,9 @@ class Home2View extends GetView<HomeController> {
                     return Stack(
                       alignment: controller.slider.isEmpty
                           ? AlignmentDirectional.center
-                          : Ui.getAlignmentDirectional(controller.slider.elementAt(controller.currentSlide.value).textPosition),
+                          : Ui.getAlignmentDirectional(controller.slider
+                          .elementAt(controller.currentSlide.value)
+                          .textPosition),
                       children: <Widget>[
                         CarouselSlider(
                           options: CarouselOptions(
@@ -71,19 +74,25 @@ class Home2View extends GetView<HomeController> {
                           }).toList(),
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(vertical: 70, horizontal: 20),
+                          margin: EdgeInsets.symmetric(
+                              vertical: 70, horizontal: 20),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: controller.slider.map((Slide slide) {
                               return Container(
                                 width: 20.0,
                                 height: 5.0,
-                                margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 20.0, horizontal: 2.0),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(10),
                                     ),
-                                    color: controller.currentSlide.value == controller.slider.indexOf(slide) ? slide.indicatorColor : slide.indicatorColor.withOpacity(0.4)),
+                                    color: controller.currentSlide.value ==
+                                            controller.slider.indexOf(slide)
+                                        ? slide.indicatorColor
+                                        : slide.indicatorColor
+                                            .withOpacity(0.4)),
                               );
                             }).toList(),
                           ),
@@ -98,43 +107,57 @@ class Home2View extends GetView<HomeController> {
                   children: [
                     AddressWidget(),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(child: Text("Categories".tr, style: Get.textTheme.headline5)),
-                          MaterialButton(
-                            onPressed: () {
-                              Get.toNamed(Routes.CATEGORIES);
-                            },
-                            shape: StadiumBorder(),
-                            color: Get.theme.colorScheme.secondary.withOpacity(0.1),
-                            child: Text("View All".tr, style: Get.textTheme.subtitle1),
-                            elevation: 0,
-                          ),
+                          Expanded(
+                              child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Hola '.tr, style: Get.textTheme.displayLarge),
+                                  Text(_currentUser.value.name ?? '',
+                                      style: Get.textTheme.displayLarge),
+                                ],
+                              ),
+                              Text("What service would you like today?".tr,
+                                  style: Get.textTheme.displayMedium),
+                            ],
+                          )),
                         ],
                       ),
                     ),
-                    CategoriesCarouselWidget(),
-                    Container(
-                      color: Get.theme.primaryColor,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      child: Row(
-                        children: [
-                          Expanded(child: Text("Recommended for you".tr, style: Get.textTheme.headline5)),
-                          MaterialButton(
-                            onPressed: () {
-                              Get.toNamed(Routes.CATEGORIES);
-                            },
-                            shape: StadiumBorder(),
-                            color: Get.theme.colorScheme.secondary.withOpacity(0.1),
-                            child: Text("View All".tr, style: Get.textTheme.subtitle1),
-                            elevation: 0,
-                          ),
-                        ],
-                      ),
-                    ),
-                    RecommendedCarouselWidget(),
-                    FeaturedCategoriesWidget(),
+//                    CategoriesCarouselWidget(),
+                    Obx(() {
+                      return Offstage(
+                        offstage:
+                            controller.layout.value != CategoriesLayout.LIST,
+                        child: controller.categories.isEmpty
+                            ? CircularLoadingWidget(height: 400)
+                            : ListView.separated(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                primary: false,
+                                itemCount: controller.categories.length,
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(height: 10);
+                                },
+                                itemBuilder: (context, index) {
+                                  return CategoryListItemWidget(
+                                    heroTag: 'category_list',
+                                    expanded: index == 0,
+                                    category:
+                                        controller.categories.elementAt(index),
+                                  );
+                                },
+                              ),
+                      );
+                    }),
+                    // RecommendedCarouselWidget(),
+                    // FeaturedCategoriesWidget(),
                   ],
                 ),
               ),
