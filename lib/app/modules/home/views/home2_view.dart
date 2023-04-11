@@ -20,6 +20,8 @@ class Home2View extends GetView<HomeController> {
   Widget build(BuildContext context) {
     var _currentUser = Get.find<AuthService>().user;
 
+    final layoutcategories = CategoriesLayout.LIST.obs;
+
     return Scaffold(
       body: RefreshIndicator(
           onRefresh: () async {
@@ -56,8 +58,8 @@ class Home2View extends GetView<HomeController> {
                       alignment: controller.slider.isEmpty
                           ? AlignmentDirectional.center
                           : Ui.getAlignmentDirectional(controller.slider
-                          .elementAt(controller.currentSlide.value)
-                          .textPosition),
+                              .elementAt(controller.currentSlide.value)
+                              .textPosition),
                       children: <Widget>[
                         CarouselSlider(
                           options: CarouselOptions(
@@ -118,7 +120,8 @@ class Home2View extends GetView<HomeController> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Hola '.tr, style: Get.textTheme.displayLarge),
+                                  Text('Hola '.tr,
+                                      style: Get.textTheme.displayLarge),
                                   Text(_currentUser.value.name ?? '',
                                       style: Get.textTheme.displayLarge),
                                 ],
@@ -133,8 +136,7 @@ class Home2View extends GetView<HomeController> {
 //                    CategoriesCarouselWidget(),
                     Obx(() {
                       return Offstage(
-                        offstage:
-                            controller.layout.value != CategoriesLayout.LIST,
+                        offstage: layoutcategories != CategoriesLayout.LIST,
                         child: controller.categories.isEmpty
                             ? CircularLoadingWidget(height: 400)
                             : ListView.separated(
