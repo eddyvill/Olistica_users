@@ -10,8 +10,8 @@ class Ui {
   static GetSnackBar SuccessSnackBar({String title = 'Success', String message}) {
     Get.log("[$title] $message");
     return GetSnackBar(
-      titleText: Text(title.tr, style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor))),
-      messageText: Text(message, style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor))),
+      titleText: Text(title.tr, style: Get.textTheme.titleLarge.merge(TextStyle(color: Get.theme.primaryColor))),
+      messageText: Text(message, style: Get.textTheme.bodySmall.merge(TextStyle(color: Get.theme.primaryColor))),
       snackPosition: SnackPosition.BOTTOM,
       margin: EdgeInsets.all(20),
       backgroundColor: Colors.green,
@@ -26,8 +26,8 @@ class Ui {
   static GetSnackBar ErrorSnackBar({String title = 'Error', String message}) {
     Get.log("[$title] $message", isError: true);
     return GetSnackBar(
-      titleText: Text(title.tr, style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor))),
-      messageText: Text(message.substring(0, min(message.length, 200)), style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor))),
+      titleText: Text(title.tr, style: Get.textTheme.titleLarge.merge(TextStyle(color: Get.theme.primaryColor))),
+      messageText: Text(message.substring(0, min(message.length, 200)), style: Get.textTheme.bodySmall.merge(TextStyle(color: Get.theme.primaryColor))),
       snackPosition: SnackPosition.BOTTOM,
       margin: EdgeInsets.all(20),
       backgroundColor: Colors.redAccent,
@@ -41,8 +41,8 @@ class Ui {
   static GetSnackBar defaultSnackBar({String title = 'Alert', String message}) {
     Get.log("[$title] $message", isError: false);
     return GetSnackBar(
-      titleText: Text(title.tr, style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.hintColor))),
-      messageText: Text(message, style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.focusColor))),
+      titleText: Text(title.tr, style: Get.textTheme.titleLarge.merge(TextStyle(color: Get.theme.hintColor))),
+      messageText: Text(message, style: Get.textTheme.bodySmall.merge(TextStyle(color: Get.theme.focusColor))),
       snackPosition: SnackPosition.BOTTOM,
       margin: EdgeInsets.all(20),
       backgroundColor: Get.theme.primaryColor,
@@ -59,8 +59,8 @@ class Ui {
     return GetSnackBar(
       onTap: onTap,
       mainButton: mainButton,
-      titleText: Text(title.tr, style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.hintColor))),
-      messageText: Text(message, style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.focusColor))),
+      titleText: Text(title.tr, style: Get.textTheme.titleLarge.merge(TextStyle(color: Get.theme.hintColor))),
+      messageText: Text(message, style: Get.textTheme.bodySmall.merge(TextStyle(color: Get.theme.focusColor))),
       snackPosition: SnackPosition.TOP,
       margin: EdgeInsets.all(20),
       backgroundColor: Get.theme.primaryColor,
@@ -101,7 +101,7 @@ class Ui {
     }
     try {
       if (myPrice == 0) {
-        return Text('-', style: style ?? Get.textTheme.subtitle2);
+        return Text('-', style: style ?? Get.textTheme.titleSmall);
       }
       return RichText(
         softWrap: false,
@@ -112,13 +112,13 @@ class Ui {
                 text: _setting.setting.value?.defaultCurrency,
                 style: getPriceStyle(style),
                 children: <TextSpan>[
-                  TextSpan(text: myPrice.toStringAsFixed(_setting.setting.value?.defaultCurrencyDecimalDigits) ?? '', style: style ?? Get.textTheme.subtitle2),
+                  TextSpan(text: myPrice.toStringAsFixed(_setting.setting.value?.defaultCurrencyDecimalDigits) ?? '', style: style ?? Get.textTheme.titleSmall),
                   if (unit != null) TextSpan(text: " " + unit + " ", style: getPriceStyle(style)),
                 ],
               )
             : TextSpan(
                 text: myPrice.toStringAsFixed(_setting.setting.value?.defaultCurrencyDecimalDigits) ?? '',
-                style: style ?? Get.textTheme.subtitle2,
+                style: style ?? Get.textTheme.titleSmall,
                 children: <TextSpan>[
                   TextSpan(text: _setting.setting.value?.defaultCurrency, style: getPriceStyle(style)),
                   if (unit != null) TextSpan(text: " " + unit + " ", style: getPriceStyle(style)),
@@ -178,7 +178,7 @@ class Ui {
           return Text(
             context.tree.element.text,
             textAlign: textAlign,
-            style: style == null ? Get.textTheme.bodyText1.merge(TextStyle(fontSize: 11)) : style.merge(TextStyle(fontSize: 11)),
+            style: style == null ? Get.textTheme.bodyLarge.merge(TextStyle(fontSize: 11)) : style.merge(TextStyle(fontSize: 11)),
           );
         }),
       },

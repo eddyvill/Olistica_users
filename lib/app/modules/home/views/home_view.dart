@@ -17,7 +17,7 @@ class HomeView extends GetView<HomeController> {
       appBar: AppBar(
         title: Text(
           Get.find<SettingsService>().setting.value.appName,
-          style: Get.textTheme.headline6,
+          style: Get.textTheme.titleLarge,
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -44,12 +44,12 @@ class HomeView extends GetView<HomeController> {
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: Row(
                   children: [
-                    Expanded(child: Text("Categories".tr, style: Get.textTheme.headline5)),
+                    Expanded(child: Text("Categories".tr, style: Get.textTheme.headlineSmall)),
                     MaterialButton(
                       onPressed: () {},
                       shape: StadiumBorder(),
                       color: Get.theme.colorScheme.secondary.withOpacity(0.1),
-                      child: Text("View All".tr, style: Get.textTheme.subtitle1),
+                      child: Text("View All".tr, style: Get.textTheme.titleMedium),
                       elevation: 0,
                     ),
                   ],
@@ -61,12 +61,12 @@ class HomeView extends GetView<HomeController> {
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: Row(
                   children: [
-                    Expanded(child: Text("Recommended for you".tr, style: Get.textTheme.headline5)),
+                    Expanded(child: Text("Recommended for you".tr, style: Get.textTheme.headlineSmall)),
                     MaterialButton(
                       onPressed: () {},
                       shape: StadiumBorder(),
                       color: Get.theme.colorScheme.secondary.withOpacity(0.1),
-                      child: Text("View All".tr, style: Get.textTheme.subtitle1),
+                      child: Text("View All".tr, style: Get.textTheme.titleMedium),
                       elevation: 0,
                     ),
                   ],

@@ -19,12 +19,12 @@ class FaqItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Ui.removeHtml(this.faq.question, style: Get.textTheme.bodyText2),
+          Ui.removeHtml(this.faq.question, style: Get.textTheme.bodyMedium),
           Divider(
             height: 30,
             thickness: 1,
           ),
-          Ui.applyHtml(this.faq.answer, style: Get.textTheme.caption)
+          Ui.applyHtml(this.faq.answer, style: Get.textTheme.bodySmall)
         ],
       ),
     );
