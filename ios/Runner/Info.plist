@@ -102,5 +102,11 @@
 		<false/>
 		<key>io.flutter.embedded_views_preview</key>
 		<string>YES</string>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true/>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+		<key>UIStatusBarHidden</key>
+		<false/>
 	</dict>
 </plist>
